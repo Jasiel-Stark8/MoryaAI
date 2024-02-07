@@ -3,6 +3,7 @@ An AI article generator with analytics
 
 
 # UI
+```
 Dashboard
 ├── 🏠 Home [Dashboard Home]
 │    ├── Overview of recent activity.
@@ -41,3 +42,4 @@ Dashboard
 └── 🤝 Share & Collaborate [Share & Collaborate]
      ├── Share articles with others.
      └── Manage collaboration settings and permissions.
+```

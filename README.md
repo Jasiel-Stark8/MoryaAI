@@ -48,10 +48,6 @@ For more detailed information on the rights and obligations conferred by the AGP
 
 ## Contact Us 📬
 
-For support, feature requests, or any queries, please reach out to MoryaAI.team@gmail.com.
-
-## Contact Us 📬
-
 For support, feature requests, or any queries, please reach out to <MoryaAI.team@gmail.com>.
 
 ---

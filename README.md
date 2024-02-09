@@ -1,8 +1,6 @@
----
+# MoryaAI: Revolutionizing AI-Powered Content Creation 🌌
 
-# AurorAI: Revolutionizing AI-Powered Content Creation 🌌
-
-Welcome to AurorAI, your premier AI-powered article and newsletter generator designed to illuminate the content creation process for platforms like Medium and HashNode. As we step into 2024, AurorAI emerges at the forefront of leveraging advanced Large Language Models (LLMs) to offer unique, personalized, and engaging content generation and optimization features. Our mission is to empower writers, marketers, and content creators with state-of-the-art tools that streamline the writing process, enhance content quality, and maximize audience engagement.
+Welcome to MoryaAI, your premier AI-powered article and newsletter generator designed to illuminate the content creation process for platforms like Medium and HashNode. As we step into 2024, MoryaAI emerges at the forefront of leveraging advanced Large Language Models (LLMs) to offer unique, personalized, and engaging content generation and optimization features. Our mission is to empower writers, marketers, and content creators with state-of-the-art tools that streamline the writing process, enhance content quality, and maximize audience engagement.
 
 ## Key Features 🔑
 
@@ -31,7 +29,7 @@ Welcome to AurorAI, your premier AI-powered article and newsletter generator des
 
 ## Getting Started 🚀
 
-To get started with AurorAI, follow these steps:
+To get started with MoryaAI, follow these steps:
 
 1. Clone the repository to your local machine.
 2. Install the required dependencies.
@@ -40,15 +38,15 @@ To get started with AurorAI, follow these steps:
 
 ## Contributing 🤝
 
-We welcome contributions from the community. If you're interested in enhancing AurorAI's features or suggesting improvements, please refer to our contribution guidelines.
+We welcome contributions from the community. If you're interested in enhancing MoryaAI's features or suggesting improvements, please refer to our contribution guidelines.
 
 ## License 📄
 
-AurorAI is released under [LICENSE TYPE]. For more information, see the LICENSE file in the repository.
+MoryaAI is released under [LICENSE TYPE]. For more information, see the LICENSE file in the repository.
 
 ## Contact Us 📬
 
-For support, feature requests, or any queries, please reach out to [CONTACT INFORMATION].
+For support, feature requests, or any queries, please reach out to <MoryaAI.team@gmail.com>.
 
 ---
 

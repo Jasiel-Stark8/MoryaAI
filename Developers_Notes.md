@@ -19,7 +19,7 @@ Our focus during the initial development phase will be on the following core fea
 
 - **Frontend**: Vue.js/PrimeVue
 - **Backend**: Flask
-- **AI Models**: OpenAI's GPT-4 | Llama | Mixtral
+- **AI Models**: OpenAI's GPT-4 | Llama | Mixtral | Gemini
 - **CI/CD**: Jenkins | GitHub Actions
 - **Server Hosting**: AWS EC2 | Google Cloud Compute Engine
 - **Database**: PostgreSQL | MongoDB

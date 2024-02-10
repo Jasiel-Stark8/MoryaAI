@@ -63,7 +63,7 @@ Our focus during the initial development phase will be on the following core fea
 
 If you encounter any issues during development, please refer to the respective documentation for Vue.js, PrimeVue, and Flask. If the issue persists, reach out to the team for assistance.
 
-
+---
 # User Visuals
 Based on the user actions and features you've provided, here's a structured outline of your application:
 
@@ -100,6 +100,8 @@ For the dashboard layout, here's a textual description:
 - The **Account Settings** and **Upgrade** sections are at the bottom. Each section includes a button that takes the user to the corresponding page.
 
 - The dashboard also includes a sidebar or navigation menu with links to the main pages of the application (Dashboard, Content Generation, Profile Settings, Upgrade). The menu might also include links to help resources, user guides, and customer support.
+
+---
 
 ## Contact
 

@@ -42,7 +42,7 @@ We welcome contributions from the community. If you're interested in enhancing M
 
 ## License 📄
 
-MoryaAI is released under the GNU Affero General Public License version 3 (AGPLv3). This license ensures that the software remains free and open-source, requiring that any modifications or derivative works be made available under the same license. It's particularly suited for applications that run over a network, promoting transparency and the sharing of improvements within the community.
+MoryaAI is released under the GNU Affero General Public License version 3 (AGPLv3). This license ensures that the software remains free and open-source, requiring that any modifications or derivative works be made available under the same license.
 
 For more detailed information on the rights and obligations conferred by the AGPLv3, please refer to the LICENSE file in the repository.
 

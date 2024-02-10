@@ -52,7 +52,7 @@ Our focus during the initial development phase will be on the following core fea
 
 1. Clone the repository to your local machine.
 2. Install the required dependencies.
-3. Set up your API keys for Medium, HashNode, and any other integrated platforms.
+3. Set up your API keys for Medium, HashNode, LinkedIn.
 
 ## Useful Commands
 

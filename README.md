@@ -1,6 +1,8 @@
 # MoryaAI: Revolutionizing AI-Powered Content Creation 🌌
 
-Welcome to MoryaAI, your premier AI-powered article and newsletter generator designed to illuminate the content creation process for platforms like Medium and HashNode. As we step into 2024, MoryaAI emerges at the forefront of leveraging advanced Large Language Models (LLMs) to offer unique, personalized, and engaging content generation and optimization features. Our mission is to empower writers, marketers, and content creators with state-of-the-art tools that streamline the writing process, enhance content quality, and maximize audience engagement.
+Welcome to MoryaAI, your premier AI-powered article and newsletter generator designed to illuminate the content creation process for platforms like Medium and HashNode. As we step into 2024, MoryaAI emerges at the forefront of leveraging advanced Large Language Models (LLMs) to offer unique, personalized, and engaging content generation and optimization features. \
+Our mission is to empower writers, marketers, and content creators with state-of-the-art tools that streamline the writing process, enhance content quality, and maximize audience engagement. \
+Our software will automatically select the model which is available at high accuracy once you click generate, allowing for a more streamlined and non-blocking requests to the models.
 
 ## Key Features 🔑
 
@@ -42,7 +44,7 @@ We welcome contributions from the community. If you're interested in enhancing M
 
 ## License 📄
 
-MoryaAI is released under the GNU Affero General Public License version 3 (AGPLv3). This license ensures that the software remains free and open-source, requiring that any modifications or derivative works be made available under the same license. It's particularly suited for applications that run over a network, promoting transparency and the sharing of improvements within the community.
+MoryaAI is released under the GNU Affero General Public License version 3 (AGPLv3). This license ensures that the software remains free and open-source, requiring that any modifications or derivative works be made available under the same license.
 
 For more detailed information on the rights and obligations conferred by the AGPLv3, please refer to the LICENSE file in the repository.
 

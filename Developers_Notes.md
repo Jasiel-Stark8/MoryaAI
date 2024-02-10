@@ -1,4 +1,4 @@
-# Developer Notes for MoryaAI
+# Developer Notes for MoryaAI Team
 
 ## Project Overview
 

@@ -82,7 +82,30 @@ Structured application outline:
 
     - **Upgrade**: This section provides a link to the upgrade page, where users can upgrade their account for additional features.
 
-3. **Content Generation Page**: On this page, users can enter keywords, a title, and a length to generate new content. They can also use voice to text to dictate their content. Once the content is generated, it is displayed on the page. Users can then choose to save it, edit it, copy it, or export it in various formats (MD, DOCX, TXT, PDF). They can also publish it directly to (Medium, Hashnode, LinkedIn).
+3. **Content Generation Page**:
+    - Left:
+        - Title
+        - Keywords
+        - Length (drop-down)
+        - Generate
+        - Voice to text
+
+    - Right:
+        - Generated content
+
+    - Page Actions (Determine postion on page):
+        - Edit
+        - Save
+        - Copy
+        - Export:
+            - PDF
+            - DOCX
+            - MD
+            - TXT
+        - Publish:
+            - Medium
+            - Hashnode
+            - LinkedIn
 
 4. **Profile Settings Page**: On this page, users can manage their account and personal details:
     - Changing password

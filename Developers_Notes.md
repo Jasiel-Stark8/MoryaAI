@@ -2,7 +2,9 @@
 
 ## Project Overview
 
-MoryaAI is an AI-powered content creation tool designed to streamline the writing process, enhance content quality, and maximize audience engagement. The application uses Vue.js/PrimeVue for the frontend and Flask for the backend.
+MoryaAI is an AI-powered content creation tool designed to streamline the writing process, enhance content quality, and maximize audience engagement. \
+A one-click generate adn post AI Application! \
+The application uses Vue.js/PrimeVue for the frontend and Flask for the backend.
 
 ## Core Features
 

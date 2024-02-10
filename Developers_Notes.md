@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-MoryaAI is an AI-powered content creation tool designed to streamline the writing process, enhance content quality, and maximize audience engagement. The application uses Vue.js/NuxtUI for the frontend and Flask for the backend.
+MoryaAI is an AI-powered content creation tool designed to streamline the writing process, enhance content quality, and maximize audience engagement. The application uses Vue.js/PrimeVue for the frontend and Flask for the backend.
 
 ## Core Features
 
@@ -17,7 +17,7 @@ Our focus during the initial development phase will be on the following core fea
 
 ## Technology Stack
 
-- **Frontend**: Vue.js/NuxtUI
+- **Frontend**: Vue.js/PrimeVue
 - **Backend**: Flask
 - **AI Models**: OpenAI's GPT-4 | Llama | Mixtral
 - **CI/CD**: Jenkins | GitHub Actions
@@ -29,10 +29,24 @@ Our focus during the initial development phase will be on the following core fea
 
 ## Development Guidelines
 
-- Follow the Vue.js and Flask style guides for code consistency.
+### Frontend Guidelines
+
+- Follow the [Vue.js style guide](https://vuejs.org/v2/style-guide/) and [PrimeVue guidelines](https://primevue.org/) for code consistency.
 - Write unit tests for all new features and bug fixes.
 - Use clear, descriptive commit messages.
+
+### Backend Guidelines
+
+- Follow the [Flask style guide](https://flask.palletsprojects.com/en/3.0.x/styleguide/) for code consistency.
+- Write unit tests for all new features and bug fixes.
+- Use clear, descriptive commit messages.
+
+### Collaborative Methods and Practices
+
 - Submit pull requests for all changes, and ensure they are reviewed by at least one other team member before merging.
+- Regularly sync your local development branch with the main branch.
+- Use feature branches for developing new features or fixing bugs.
+- Use descriptive names for your branches (e.g., `feature/user-authentication`, `bugfix/header-styling`).
 
 ## Setup Instructions
 
@@ -47,7 +61,7 @@ Our focus during the initial development phase will be on the following core fea
 
 ## Troubleshooting
 
-If you encounter any issues during development, please refer to the respective documentation for Vue.js, NuxtUI, and Flask. If the issue persists, reach out to the team for assistance.
+If you encounter any issues during development, please refer to the respective documentation for Vue.js, PrimeVue, and Flask. If the issue persists, reach out to the team for assistance.
 
 ## Contact
 

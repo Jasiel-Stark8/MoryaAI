@@ -46,6 +46,7 @@ Our focus during the initial development phase will be on the following core fea
 
 ### Backend Structure
 
+```
 .
 ├── Developers_Notes.md
 ├── LICENSE
@@ -77,6 +78,7 @@ Our focus during the initial development phase will be on the following core fea
 │   └── tests
 │       └── __init__.py
 └── tree
+```
 
 ### Database & Storage
 

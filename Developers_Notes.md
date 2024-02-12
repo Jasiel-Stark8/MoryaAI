@@ -24,7 +24,7 @@ Our focus during the initial development phase will be on the following core fea
 - **AI Models**: OpenAI's GPT-4 | Llama | Mixtral | Gemini
 - **CI/CD**: Jenkins | GitHub Actions
 - **Server Hosting**: AWS EC2 | Google Cloud Compute Engine
-- **Database**: PostgreSQL | MongoDB
+- **Database**: MongoDB
 - **Payment Platform**: Stripe
 - **Logging and Monitoring**: ELK Stack (Elasticsearch, Logstash, Kibana) | Google Stackdriver
 - **Security**: Bcrypt for password hashing | 2FA for user authentication | SSL for secure data transmission

@@ -44,6 +44,56 @@ Our focus during the initial development phase will be on the following core fea
 - Write unit tests for all new features and bug fixes.
 - Use clear, descriptive commit messages.
 
+### Database & Storage
+
+1. User Information
+   - Username
+   - Email
+   - Hashed Password
+   - Profile Picture
+   - Subscription Status
+   - Authentication Provider (Local, Google, LinkedIn)
+
+2. Article Information
+   - Title
+   - Content
+   - Status (Draft or Published)
+   - Auto-save Timestamps
+   - Author (reference to User)
+
+3. Platform Information
+   - Platform Name (Medium, Hashnode, LinkedIn)
+   - API Keys or other necessary details for each platform
+
+4. Subscription Plan Information
+   - Plan Name
+   - Plan Features
+   - Plan Price
+
+5. Payment Information
+   - User (reference to User)
+   - Payment Method
+   - Transaction ID
+   - Date of Transaction
+   - Subscription Purchased (reference to Subscription Plan)
+
+6. Saved Content Information
+   - User (reference to User)
+   - Content (reference to Article)
+   - Date Saved
+
+7. Published Content Information
+   - User (reference to User)
+   - Content (reference to Article)
+   - Platform Published On
+   - Link to Published Content
+
+8. Voice Draft Information
+   - User (reference to User)
+   - Content
+   - Date Created
+
+
 ### Collaborative Methods and Practices
 
 - Submit pull requests for all changes, and ensure they are reviewed by at least one other team member before merging.

@@ -48,33 +48,32 @@ Our focus during the initial development phase will be on the following core fea
 
 ```
 .
-├── server
-│   ├── app
-│   │   ├── __init__.py
-│   │   └── api
-│   │       ├── __init__.py
-│   │       └── v1
-│   │           ├── core
-│   │           │   └── __init__.py
-│   │           ├── llms
-│   │           │   └── __init__.py
-│   │           ├── models
-│   │           │   ├── __init__.py
-│   │           │   ├── articles.py
-│   │           │   ├── payments.py
-│   │           │   ├── platforms.py
-│   │           │   ├── published_content.py
-│   │           │   ├── saved_content.py
-│   │           │   ├── subscriptions.py
-│   │           │   ├── users.py
-│   │           │   └── voice_drafts.py
-│   │           └── routes
-│   │               └── __init__.py
-│   ├── app.py
-│   ├── requirements.txt
-│   └── tests
-│       └── __init__.py
-└── tree
+└── server
+    ├── app
+    │   ├── __init__.py
+    │   └── api
+    │       ├── __init__.py
+    │       └── v1
+    │           ├── core
+    │           │   └── __init__.py
+    │           ├── llms
+    │           │   └── __init__.py
+    │           ├── models
+    │           │   ├── __init__.py
+    │           │   ├── articles.py
+    │           │   ├── payments.py
+    │           │   ├── platforms.py
+    │           │   ├── published_content.py
+    │           │   ├── saved_content.py
+    │           │   ├── subscriptions.py
+    │           │   ├── users.py
+    │           │   └── voice_drafts.py
+    │           └── routes
+    │               └── __init__.py
+    ├── app.py
+    ├── requirements.txt
+    └── tests
+        └── __init__.py
 ```
 
 ### Database & Storage

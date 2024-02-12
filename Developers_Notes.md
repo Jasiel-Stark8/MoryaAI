@@ -48,9 +48,6 @@ Our focus during the initial development phase will be on the following core fea
 
 ```
 .
-├── Developers_Notes.md
-├── LICENSE
-├── README.md
 ├── server
 │   ├── app
 │   │   ├── __init__.py

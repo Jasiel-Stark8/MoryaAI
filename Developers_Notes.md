@@ -48,17 +48,17 @@ Our focus during the initial development phase will be on the following core fea
 
 ```
 .
-└── server
-    ├── app
+└── server/
+    ├── app/
     │   ├── __init__.py
-    │   └── api
+    │   └── api/
     │       ├── __init__.py
-    │       └── v1
-    │           ├── core
+    │       └── v1/
+    │           ├── core/
     │           │   └── __init__.py
     │           ├── llms
     │           │   └── __init__.py
-    │           ├── models
+    │           ├── models/
     │           │   ├── __init__.py
     │           │   ├── articles.py
     │           │   ├── payments.py
@@ -68,11 +68,11 @@ Our focus during the initial development phase will be on the following core fea
     │           │   ├── subscriptions.py
     │           │   ├── users.py
     │           │   └── voice_drafts.py
-    │           └── routes
+    │           └── routes/
     │               └── __init__.py
     ├── app.py
     ├── requirements.txt
-    └── tests
+    └── tests/
         └── __init__.py
 ```
 

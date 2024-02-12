@@ -93,7 +93,6 @@ Our focus during the initial development phase will be on the following core fea
    - Content
    - Date Created
 
-
 ### Collaborative Methods and Practices
 
 - Submit pull requests for all changes, and ensure they are reviewed by at least one other team member before merging.

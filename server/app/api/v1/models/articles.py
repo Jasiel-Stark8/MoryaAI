@@ -1,8 +1,29 @@
+"""Article model for storing article related details in the database"""
 from datetime import datetime
+import mongoengine as db
+from users import User
+from published_content import Published
 
-# searching for articles with /search endpoint
-# def search_articles(query):
-#     return Article.query.filter(Article.title.ilike(f'%{query}%')).all()
+db.connect('morya', host='mongodb+srv://morya:9jj7nsxBsoOT43nL@morya.kxt9fkg.mongodb.net/')
 
-# Or
-# return {article.to_json() for article in Article.objects(name_contains=query).all()}
+class Article(db.Document):
+    user = db.ReferenceField(User, required=True)
+    article_id = db.SequenceField(primary_key=True)
+    title = db.StringField(required=True, unique=True)
+    content = db.StringField(required=True)
+    author = db.StringField(required=True)
+    created_at = db.DateTimeField(default=datetime.now)
+    updated_at = db.DateTimeField(default=datetime.now)
+    is_published = db.BooleanField(default=False)
+    platform = db.ReferenceField(Published)
+
+    def to_json(self):
+        return {
+            "article_id": self.article_id,
+            "title": self.title,
+            "content": self.content,
+            "author": self.author,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "is_published": self.is_published
+        }

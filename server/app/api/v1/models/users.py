@@ -1,5 +1,6 @@
-from mongoengine import Document, StringField, EmailField, BooleanField
+from mongoengine import connect, Document, StringField, EmailField, BooleanField
 
+connect('morya', host='mongodb+srv://morya:9jj7nsxBsoOT43nL@morya.kxt9fkg.mongodb.net/')
 class User(Document):
     username = StringField(required=True, unique=True)
     email = EmailField(required=True, unique=True)

@@ -92,7 +92,5 @@ else:
 # ==============================================
 
 print('fetching all users...')
-users = []
-for user in User.objects():
-    users.append(user.to_json())
+users = [user.to_json() for user in User.objects()]
 print(users)

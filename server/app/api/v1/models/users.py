@@ -1,7 +1,9 @@
 """User model for storing user related details in the database"""
 import mongoengine as db
+from articles import Article
 
 db.connect('morya', host='mongodb+srv://morya:9jj7nsxBsoOT43nL@morya.kxt9fkg.mongodb.net/')
+
 class User(db.Document):
     user_id = db.SequenceField(primary_key=True)
     username = db.StringField(required=True, unique=True)
@@ -11,6 +13,7 @@ class User(db.Document):
     subscription_status = db.StringField()
     authentication_provider = db.StringField(default='local')
     is_active = db.BooleanField(default=True)
+    articles = db.ListField(db.ReferenceField(Article))
 
     def to_json(self):
         return {

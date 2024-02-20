@@ -209,6 +209,68 @@ def logout(user_id: str):
     session.pop(user_id, None)
     return jsonify({'message': 'Logout successful'})
 
+# Reset Password
+@auth.route('/request-password-reset', methods=['POST'])
+def request_password_reset():
+    email = request.form.get('email')
+    user = get_user_by_email(email)
+    if user is not None:
+        token = generate_reset_token(user)
+        send_password_reset_email(user.email, token)
+    return 'Password reset email sent'
+
+@auth.route('/reset-password', methods=['GET', 'POST'])
+def reset_password():
+    if request.method == 'POST':
+        token = request.form.get('token')
+        new_password = request.form.get('new_password')
+        user = validate_reset_token(token)
+        if user is not None:
+            update_password(user, new_password)
+            return 'Password reset successfully'
+        else:
+            return 'Invalid or expired reset token', 400
+    else:
+        return render_template('reset_password.html')
+
+def send_password_reset_email(email, token):
+    sender_email = "your_email@example.com"
+    receiver_email = email
+    password = "your_password"
+
+    message = MIMEMultipart("alternative")
+    message["Subject"] = "Password Reset"
+    message["From"] = sender_email
+    message["To"] = receiver_email
+
+    text = f"""\
+    Hi,
+    You have requested to reset your password. Please click the link below to reset your password:
+    http://your_website.com/reset-password?token={token}"""
+
+    html = f"""\
+    <html>
+      <body>
+        <p>Hi,<br>
+           You have requested to reset your password. Please click the link below to reset your password:<br>
+           <a href="http://your_website.com/reset-password?token={token}">Reset Password</a>
+        </p>
+      </body>
+    </html>
+    """
+
+    part1 = MIMEText(text, "plain")
+    part2 = MIMEText(html, "html")
+
+    message.attach(part1)
+    message.attach(part2)
+
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, message.as_string())
+
+
 
 # Google Authentication
 def google_auth(user_info: dict):

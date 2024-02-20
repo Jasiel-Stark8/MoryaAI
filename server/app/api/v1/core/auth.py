@@ -1,6 +1,6 @@
 """User Auth module"""
 import logging
-from flask import Flask, jsonify, session, Blueprint
+from flask import Flask, jsonify, request, session, Blueprint
 from typing import Optional
 import bcrypt
 import secrets
@@ -153,18 +153,62 @@ def update_user(user: User, is_active: bool):
     user.save()
 
 
+# Before Request
+@auth.before_request
+def check_user_verification():
+    """
+    Check if the user is verified before processing the request.
+    """
+    if request.endpoint != 'auth.verify_email':
+        token = request.args.get('token')
+        user = get_user_by_token(token)
+        if user is None or not user.is_active:
+            return jsonify({'error': 'User not verified'}, 401)
+
+
 # Login
 @sleep_and_retry
 @limits(calls=5, period=timedelta(seconds=60).total_seconds())
+@auth.route('/login', methods=['POST'], strict_slashes=False)
 def login(email: str, password: str):
     user = User.objects(email=email).first()
     if user:
         if bcrypt.checkpw(password.encode('utf-8'), user.hashed_password.encode('utf-8')):
-            return jsonify({'Login successful'}, 201)
+            return jsonify({'message': 'Login successful'}, 201)
         else:
-            return jsonify({'Invalid password'}, 400)
+            return jsonify({'error': 'Invalid password'}, 400)
     else:
-        return jsonify({'User not found'}, 400)
+        return jsonify({'error': 'User not found'}, 400)
+
+
+# Verify Email
+@auth.route('/verify_email', methods=['GET'], strict_slashes=False)
+def verify_email():
+    """
+    Verify the email using the provided token.
+
+    Returns:
+        str: The verification result.
+    """
+    token = request.args.get('token')
+    user = get_user_by_token(token)
+    if user is not None:
+        update_user(user, is_active=True)
+        return jsonify({'message': 'Email verified successfully'})
+    return jsonify({'error': 'Invalid verification token'}, 400)
+
+# Logout
+@auth.route('/logout', methods=['GET'], strict_slashes=False)
+def logout(user_id: str):
+    """
+    Logout the user.
+
+    Returns:
+        str: The logout result.
+    """
+    session.pop(user_id, None)
+    return jsonify({'message': 'Logout successful'})
+
 
 # Google Authentication
 def google_auth(user_info: dict):

@@ -1,6 +1,6 @@
 """User Auth module"""
 import logging
-from flask import Flask, jsonify, request, session, Blueprint
+from flask import Flask, jsonify, request, session, Blueprint, render_template
 from typing import Optional
 import bcrypt
 import secrets

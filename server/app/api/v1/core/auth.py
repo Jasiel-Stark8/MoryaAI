@@ -3,13 +3,9 @@ import logging
 from flask import Flask, jsonify, request, session, Blueprint, render_template
 from typing import Optional
 import bcrypt
-import secrets
 from datetime import timedelta
 from ratelimit import limits, sleep_and_retry
 from mongoengine import errors
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 from models.users import User
 from models.articles import Article
 from models.platforms import Platform
@@ -37,18 +33,7 @@ def signup(username: str, email: str, password: str):
 
     Raises:
         None
-    """   
-
-    def generate_verification_token():
-        """
-        Generate a random verification token.
-
-        Returns:
-            str: The generated verification token.
-        """
-        token = secrets.token_urlsafe(32)
-        return token
-
+    """
     try:
         # Generate email verification token
         verification_token = generate_verification_token()
@@ -71,9 +56,6 @@ def signup(username: str, email: str, password: str):
                 logger.info('User created successfully')
                 session['user_id'] = str(user.user_id)  # Store user ID in session
 
-                # Send verification email to user
-                send_verification_email(user.email, verification_token)
-
                 return jsonify({'User created successfully'}, 201)
         else:
             logger.warning('User already exists')
@@ -85,62 +67,8 @@ def signup(username: str, email: str, password: str):
         logger.error(f"An error occurred during signup: {str(e)}")
         return jsonify({'Error occurred during signup'}, 500)
 
-def send_verification_email(email, verification_token):
-    # Email configuration
-    sender_email = 'MoryaAI.team@gmail.com'
-    subject = 'Morya AI Email Verification'
-    body = f'Please click the following link to verify your email: {verification_token}'
-
-    # Create a multipart message
-    message = MIMEMultipart()
-    message['From'] = sender_email
-    message['To'] = email
-    message['Subject'] = subject
-
-    # Add body to the email
-    message.attach(MIMEText(body, 'plain'))
-
-    # SMTP server configuration
-    smtp_server = 'smtp.example.com'
-    smtp_port = 587
-    smtp_username = 'your_smtp_username'
-    smtp_password = 'your_smtp_password'
-
-    # Create a secure connection with the SMTP server
-    with smtplib.SMTP(smtp_server, smtp_port) as server:
-        server.starttls()
-        server.login(smtp_username, smtp_password)
-        server.send_message(message)
-
-    print('Verification email sent successfully')
-
-# Verify Email
-def verify_email():
-    """
-    Verify the email using the provided token.
-
-    Returns:
-        str: The verification result.
-    """
-    token = request.args.get('token')
-    user = get_user_by_token(token)
-    if user is not None:
-        update_user(user, is_active=True)
-        return 'Email verified successfully'
-    return 'Invalid verification token', 400
-
-def get_user_by_token(token: str) -> Optional[User]:
-    """
-    Get the user by the verification token.
-
-    Args:
-        token (str): The verification token.
-
-    Returns:
-        Optional[User]: The user object if found, None otherwise.
-    """
-    return User.objects(verification_token=token).first()
-
+implement verification email with flask-mail simply
+# Once verified activate user status
 def update_user(user: User, is_active: bool):
     """
     Update the user's active status.
@@ -149,7 +77,7 @@ def update_user(user: User, is_active: bool):
         user (User): The user object.
         is_active (bool): The active status.
     """
-    user.is_active = is_active
+    user.is_active = True
     user.save()
 
 

@@ -3,19 +3,40 @@ import logging
 from flask import Flask, jsonify, request, session, Blueprint, render_template
 from typing import Optional
 import bcrypt
+import secrets
 from datetime import timedelta
 from ratelimit import limits, sleep_and_retry
 from mongoengine import errors
 from models.users import User
 from models.articles import Article
 from models.platforms import Platform
+from flask_mail import Mail, Message
 
 # BLUEPRINT
 auth = Blueprint('auth', __name__, url_prefix='/auth')
+logger = logging.getLogger(__name__)
+mail = Mail()
+
+
+# Before Request
+@auth.before_request
+def check_user_verification():
+    """
+    Check if the user is verified and registered before processing the request.
+    """
+    if not session.get('user_id'):
+        return jsonify({'error': 'Unauthorized access'}), 401
+
+    user = User.objects(id=session['user_id']).first()
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    if not user.is_active:
+        return jsonify({'error': 'Your account is not verified. \
+                        Please check your email for verification instructions.'}), 401
+
 
 # Signup
-logger = logging.getLogger(__name__)
-
 @sleep_and_retry
 @limits(calls=5, period=timedelta(seconds=60).total_seconds())
 @auth.route('/signup', methods=['GET', 'POST'], strict_slashes=False)
@@ -34,27 +55,52 @@ def signup(username: str, email: str, password: str):
     Raises:
         None
     """
-    try:
-        # Generate email verification token
-        verification_token = generate_verification_token()
+    # Generate verification token
+    def generate_verification_token(user: User) -> str:
+        """
+        Generate a verification token for the user.
 
+        Args:
+            user (User): The user object.
+
+        Returns:
+            str: The verification token.
+        """
+        # Generate a unique verification token
+        token = secrets.token_urlsafe(32)
+        # Save the token to the user object
+        user.verification_token = token
+        user.save()
+        return token
+
+    try:
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         user = User(
             username=username,
             email=email,
             hashed_password=hashed_password,
             profile_picture='',
-            subscription_status='inactive',  # Set subscription status to inactive until user pays
+            subscription_status='inactive',  # Set subscription status to inactive until user pays us lol
             authentication_provider='local',
             is_active=False,  # Set user as inactive until email is verified
             verification_token=verification_token  # Store verification token in user object
         )
+
+        # Call generate_verification_token function to generate a verification token
+        verification_token=generate_verification_token(user)
+
         existing_user = User.objects(email=user.email).first()
         if not existing_user:
             with session.start_transaction():
                 User.save(user)
                 logger.info('User created successfully')
                 session['user_id'] = str(user.user_id)  # Store user ID in session
+
+                # Send verification email
+                msg = Message('Email Verification', recipients=[email])
+                msg.body = f"Please click the following link to verify your email: \
+                        {request.host_url}auth/verify_email?token={verification_token}"
+                mail.send(msg)
 
                 return jsonify({'User created successfully'}, 201)
         else:
@@ -67,9 +113,8 @@ def signup(username: str, email: str, password: str):
         logger.error(f"An error occurred during signup: {str(e)}")
         return jsonify({'Error occurred during signup'}, 500)
 
-implement verification email with flask-mail simply
 # Once verified activate user status
-def update_user(user: User, is_active: bool):
+def update_user(user: User):
     """
     Update the user's active status.
 
@@ -80,20 +125,6 @@ def update_user(user: User, is_active: bool):
     user.is_active = True
     user.save()
 
-
-# Before Request
-@auth.before_request
-def check_user_verification():
-    """
-    Check if the user is verified before processing the request.
-    """
-    if request.endpoint != 'auth.verify_email':
-        token = request.args.get('token')
-        user = get_user_by_token(token)
-        if user is None or not user.is_active:
-            return jsonify({'error': 'User not verified'}, 401)
-
-
 # Login
 @sleep_and_retry
 @limits(calls=5, period=timedelta(seconds=60).total_seconds())
@@ -101,13 +132,17 @@ def check_user_verification():
 def login(email: str, password: str):
     user = User.objects(email=email).first()
     if user:
-        if bcrypt.checkpw(password.encode('utf-8'), user.hashed_password.encode('utf-8')):
-            return jsonify({'message': 'Login successful'}, 201)
+        if user.is_active:  # Check if user is verified
+            if bcrypt.checkpw(password.encode('utf-8'), user.hashed_password.encode('utf-8')):
+                return jsonify({'message': 'Login successful'}, 201)
+            else:
+                return jsonify({'error': 'Invalid credentials'}, 400)
         else:
-            return jsonify({'error': 'Invalid password'}, 400)
+            return jsonify({'error': 'Your account is not verified. \
+                            Please check your email for verification instructions.'}, 401)
     else:
-        return jsonify({'error': 'User not found'}, 400)
-
+        return jsonify({'error': 'You don\'t seem to have an account. \
+                        Please sign up to create an account.'}, 400)
 
 # Verify Email
 @auth.route('/verify_email', methods=['GET'], strict_slashes=False)
@@ -119,11 +154,12 @@ def verify_email():
         str: The verification result.
     """
     token = request.args.get('token')
-    user = get_user_by_token(token)
+    user = User.objects(token=token).first()
     if user is not None:
-        update_user(user, is_active=True)
-        return jsonify({'message': 'Email verified successfully'})
-    return jsonify({'error': 'Invalid verification token'}, 400)
+        update_user(user)
+        return jsonify({'Email verified successfully'}, 200)
+    else:
+        return jsonify({'Invalid token'}, 400)
 
 # Logout
 @auth.route('/logout', methods=['GET'], strict_slashes=False)
@@ -138,104 +174,56 @@ def logout(user_id: str):
     return jsonify({'message': 'Logout successful'})
 
 # Reset Password
-@auth.route('/request-password-reset', methods=['POST'])
-def request_password_reset():
-    email = request.form.get('email')
-    user = get_user_by_email(email)
-    if user is not None:
-        token = generate_reset_token(user)
-        send_password_reset_email(user.email, token)
-    return 'Password reset email sent'
-
-@auth.route('/reset-password', methods=['GET', 'POST'])
+@auth.route('/reset-password', methods=['POST'])
 def reset_password():
-    if request.method == 'POST':
-        token = request.form.get('token')
-        new_password = request.form.get('new_password')
-        user = validate_reset_token(token)
-        if user is not None:
-            update_password(user, new_password)
-            return 'Password reset successfully'
-        else:
-            return 'Invalid or expired reset token', 400
+    """Reset Password"""
+    email = request.form.get('email')
+    new_password = request.form.get('new_password')
+    user = User.objects(email=email).first()
+    if user is not None:
+        user.password = new_password
+        user.save()
+        return 'Password reset successful'
     else:
-        return render_template('reset_password.html')
-
-def send_password_reset_email(email, token):
-    sender_email = "your_email@example.com"
-    receiver_email = email
-    password = "your_password"
-
-    message = MIMEMultipart("alternative")
-    message["Subject"] = "Password Reset"
-    message["From"] = sender_email
-    message["To"] = receiver_email
-
-    text = f"""\
-    Hi,
-    You have requested to reset your password. Please click the link below to reset your password:
-    http://your_website.com/reset-password?token={token}"""
-
-    html = f"""\
-    <html>
-      <body>
-        <p>Hi,<br>
-           You have requested to reset your password. Please click the link below to reset your password:<br>
-           <a href="http://your_website.com/reset-password?token={token}">Reset Password</a>
-        </p>
-      </body>
-    </html>
-    """
-
-    part1 = MIMEText(text, "plain")
-    part2 = MIMEText(html, "html")
-
-    message.attach(part1)
-    message.attach(part2)
-
-    with smtplib.SMTP("smtp.gmail.com", 587) as server:
-        server.starttls()
-        server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message.as_string())
+        return 'User not found'
 
 
+# # Google Authentication
+# def google_auth(user_info: dict):
+#     # Store user_info to the database
+#     # Example code:
+#     user = User(
+#         username=user_info['username'],
+#         email=user_info['email'],
+#         hashed_password='',
+#         profile_picture=user_info['profile_picture'],
+#         subscription_status='active',
+#         authentication_provider='google',
+#         is_active=True
+#     )
+#     existing_user = User.objects(email=user.email).first()
+#     if not existing_user:
+#         User.save(user)
+#         return 'User created successfully'
+#     else:
+#         return 'User already exists'
 
-# Google Authentication
-def google_auth(user_info: dict):
-    # Store user_info to the database
-    # Example code:
-    user = User(
-        username=user_info['username'],
-        email=user_info['email'],
-        hashed_password='',
-        profile_picture=user_info['profile_picture'],
-        subscription_status='active',
-        authentication_provider='google',
-        is_active=True
-    )
-    existing_user = User.objects(email=user.email).first()
-    if not existing_user:
-        User.save(user)
-        return 'User created successfully'
-    else:
-        return 'User already exists'
-
-# LinkedIn Authentication
-def linkedin_auth(user_info):
-    # Store user_info to the database
-    # Example code:
-    user = User(
-        username=user_info['username'],
-        email=user_info['email'],
-        hashed_password='',
-        profile_picture=user_info['profile_picture'],
-        subscription_status='active',
-        authentication_provider='linkedin',
-        is_active=True
-    )
-    existing_user = User.objects(email=user.email).first()
-    if not existing_user:
-        User.save(user)
-        return 'User created successfully'
-    else:
-        return 'User already exists'
+# # LinkedIn Authentication
+# def linkedin_auth(user_info):
+#     # Store user_info to the database
+#     # Example code:
+#     user = User(
+#         username=user_info['username'],
+#         email=user_info['email'],
+#         hashed_password='',
+#         profile_picture=user_info['profile_picture'],
+#         subscription_status='active',
+#         authentication_provider='linkedin',
+#         is_active=True
+#     )
+#     existing_user = User.objects(email=user.email).first()
+#     if not existing_user:
+#         User.save(user)
+#         return 'User created successfully'
+#     else:
+#         return 'User already exists'

@@ -1,7 +1,11 @@
 import unittest
+import os
+import sys
 from flask import session, jsonify, request
 from app.api.v1.core.auth import signup, verify_email, update_user, login, logout, reset_password
 from app.api.v1.models.users import User
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 class TestAuth(unittest.TestCase):
     def setUp(self):

@@ -20,10 +20,10 @@ from app.models import published_content
 
 # import blueprints
 from app.api.v1.core.auth import auth
-from app.api.v1.core.generate import generate
-from app.api.v1.core.settings import settings
-from app.api.v1.core.subscribe import subscribe
-from app.api.v1.core.view_articles import view_articles
+# from app.api.v1.core.generate import generate
+# from app.api.v1.core.settings import settings
+# from app.api.v1.core.subscribe import subscribe
+# from app.api.v1.core.view_articles import view_articles
 
 # Register blueprints
 app.register_blueprint(auth, url_prefix='/auth')

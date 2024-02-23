@@ -1,16 +1,39 @@
 """Application entry point"""
+import os
 from flask import Flask, request, redirect, url_for, jsonify
 from flask_cors import CORS
-from app.database import db
-from app.api.v1.models import users
-from app.api.v1.models.articles import Article
-from app.api.v1.models.platforms import Platform
-from app.api.v1.models.published_content import Published
+from dotenv import load_dotenv
+from app.database import db, initialize_db
+
+load_dotenv()
 
 app = Flask(__name__)
+cors = CORS(app, resources={r'/api/*': {'origins': '*'}})
+
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['BACKUP_SECRET_KEY'] = os.getenv('BACKUP_SECRET_KEY')
+
 db.init_app(app)
 
-CORS = CORS(app, resources={r'/api/*': {'origins': '*'}})
+# import models
+from app.models import users
+from app.models import articles
+from app.models import platforms
+from app.models import published_content
+
+# import blueprints
+from app.api.v1.core.auth import auth
+from app.api.v1.core.generate import generate
+from app.api.v1.core.settings import settings
+from app.api.v1.core.subscribe import subscribe
+from app.api.v1.core.view_articles import view_articles
+
+app.register_blueprint(auth, url_prefix='/auth')
+app.register_blueprint(generate, url_prefix='/generate')
+app.register_blueprint(settings, url_prefix='/settings')
+app.register_blueprint(subscribe, url_prefix='/subscribe')
+app.register_blueprint(view_articles, url_prefix='/view_articles')
+
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')

@@ -1,10 +1,7 @@
 from datetime import datetime
-import mongoengine as db
-from users import User
-from articles import Article
-from platforms import Platform
+from .users import User
+from ....database import db
 
-db.connect('morya', host='mongodb+srv://morya:9jj7nsxBsoOT43nL@morya.kxt9fkg.mongodb.net/')
 
 class Published(db.Document):
     article = db.ReferenceField(Article, required=True)

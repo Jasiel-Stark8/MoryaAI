@@ -1,10 +1,8 @@
 """Article model for storing article related details in the database"""
 from datetime import datetime
-import mongoengine as db
-from users import User
-from published_content import Published
+from ....database import db
+from .published_content import Published
 
-db.connect('morya', host='mongodb+srv://morya:9jj7nsxBsoOT43nL@morya.kxt9fkg.mongodb.net/')
 
 class Article(db.Document):
     user = db.ReferenceField(User, required=True)

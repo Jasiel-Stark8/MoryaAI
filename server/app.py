@@ -8,7 +8,7 @@ from app.database import db, initialize_db
 load_dotenv()
 
 app = Flask(__name__)
-cors = CORS(app, resources={r'/api/*': {'origins': '*'}})
+cors = CORS(app, resources={r'/api/v1/*': {'origins': '*'}})
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['BACKUP_SECRET_KEY'] = os.getenv('BACKUP_SECRET_KEY')

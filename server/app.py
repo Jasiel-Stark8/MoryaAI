@@ -3,7 +3,6 @@ import os
 from flask import Flask, request, redirect, url_for, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
-from app.database import db, initialize_db
 
 load_dotenv()
 
@@ -12,8 +11,6 @@ cors = CORS(app, resources={r'/api/v1/*': {'origins': '*'}})
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['BACKUP_SECRET_KEY'] = os.getenv('BACKUP_SECRET_KEY')
-
-db.init_app(app)
 
 # import models
 from app.models import users

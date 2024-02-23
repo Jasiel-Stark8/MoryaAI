@@ -28,6 +28,7 @@ from app.api.v1.core.settings import settings
 from app.api.v1.core.subscribe import subscribe
 from app.api.v1.core.view_articles import view_articles
 
+# Register blueprints
 app.register_blueprint(auth, url_prefix='/auth')
 app.register_blueprint(generate, url_prefix='/generate')
 app.register_blueprint(settings, url_prefix='/settings')

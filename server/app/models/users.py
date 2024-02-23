@@ -1,5 +1,5 @@
 """User model for storing user related details in the database"""
-from ....database import db
+from ..database import db
 from .articles import Article
 
 class User(db.Document):

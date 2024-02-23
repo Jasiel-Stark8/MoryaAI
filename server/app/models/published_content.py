@@ -1,6 +1,6 @@
 from datetime import datetime
 from .users import User
-from ....database import db
+from ..database import db
 
 class Published(db.Document):
     article = db.ReferenceField(Article, required=True)

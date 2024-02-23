@@ -1,6 +1,6 @@
 """Article model for storing article related details in the database"""
 from datetime import datetime
-from ....database import db
+from ..database import db
 from .published_content import Published
 
 

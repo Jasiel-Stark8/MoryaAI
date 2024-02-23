@@ -3,7 +3,7 @@ Platform model for the containing all platofrm we support
 - currently we support linkedin, medium and hashnode
 - We will add more platforms as we go along
 """
-from ....database import db
+from ..database import db
 
 class Platform(db.Document):
     name = db.StringField(required=True)

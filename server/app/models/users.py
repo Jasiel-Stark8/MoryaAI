@@ -1,6 +1,5 @@
 """User model for storing user related details in the database"""
 from ..database import db
-from .articles import Article
 
 class User(db.Document):
     """Define the user class model for storing user related details in the database"""
@@ -12,10 +11,11 @@ class User(db.Document):
     subscription_status = db.StringField()
     authentication_provider = db.StringField(default='local')
     is_active = db.BooleanField(default=True)
-    articles = db.ListField(db.ReferenceField(Article))
+    articles = db.ListField(db.ReferenceField('Article'))
 
     def to_json(self):
         """Initialize the user model with the required fields"""
+        from .articles import Article
         return {
             "user_id": self.user_id,
             "username": self.username,
@@ -26,3 +26,4 @@ class User(db.Document):
             "authentication_provider": self.authentication_provider,
             "is_active": self.is_active
         }
+# Path: server/app/models/articles.py

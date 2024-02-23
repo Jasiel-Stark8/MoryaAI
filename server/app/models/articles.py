@@ -5,7 +5,7 @@ from .published_content import Published
 
 
 class Article(db.Document):
-    user = db.ReferenceField(User, required=True)
+    user = db.ReferenceField('User', required=True)
     article_id = db.SequenceField(primary_key=True)
     title = db.StringField(required=True, unique=True)
     content = db.StringField(required=True)
@@ -16,6 +16,7 @@ class Article(db.Document):
     platform = db.ReferenceField(Published)
 
     def to_json(self):
+        from .users import User
         return {
             "article_id": self.article_id,
             "title": self.title,

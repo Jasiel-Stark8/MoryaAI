@@ -1,7 +1,7 @@
 """Application entry point"""
 from flask import Flask, request, redirect, url_for, jsonify
 from flask_cors import CORS
-from server.app.database import db
+from ....database import db
 from app.api.v1.models import users
 
 app = Flask(__name__)

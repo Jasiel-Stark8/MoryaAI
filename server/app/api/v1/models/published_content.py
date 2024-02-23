@@ -2,7 +2,6 @@ from datetime import datetime
 from .users import User
 from ....database import db
 
-
 class Published(db.Document):
     article = db.ReferenceField(Article, required=True)
     published_id = db.SequenceField(primary_key=True)

@@ -20,7 +20,7 @@ linkedin = Platform(
     username='linkedin_api_key',  # Replace with our actual LinkedIn API key
     password='linkedin_api_secret'  # Replace with our actual LinkedIn API secret
 )
-linkedin.save()
+
 
 # Create and save a Platform document for Medium
 medium = Platform(
@@ -28,7 +28,6 @@ medium = Platform(
     username='medium_api_key',  # Replace with our actual Medium API key
     password='medium_api_secret'  # Replace with our actual Medium API secret
 )
-medium.save()
 
 # Create and save a Platform document for Hashnode
 hashnode = Platform(
@@ -36,4 +35,3 @@ hashnode = Platform(
     username='hashnode_api_key',  # Replace with our actual Hashnode API key
     password='hashnode_api_secret'  # Replace with our actual Hashnode API secret
 )
-hashnode.save()

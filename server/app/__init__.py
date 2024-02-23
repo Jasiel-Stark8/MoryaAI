@@ -9,4 +9,9 @@ def create_app():
 
     initialize_db(app)
 
+    from models import platforms
+    platforms.linkedin.save()
+    platforms.medium.save()
+    platforms.hashnode.save()
+
     return app

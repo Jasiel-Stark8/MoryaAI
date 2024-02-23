@@ -27,10 +27,10 @@ from app.api.v1.core.auth import auth
 
 # Register blueprints
 app.register_blueprint(auth, url_prefix='/auth')
-app.register_blueprint(generate, url_prefix='/generate')
-app.register_blueprint(settings, url_prefix='/settings')
-app.register_blueprint(subscribe, url_prefix='/subscribe')
-app.register_blueprint(view_articles, url_prefix='/view_articles')
+# app.register_blueprint(generate, url_prefix='/generate')
+# app.register_blueprint(settings, url_prefix='/settings')
+# app.register_blueprint(subscribe, url_prefix='/subscribe')
+# app.register_blueprint(view_articles, url_prefix='/view_articles')
 
 
 @app.route('/', defaults={'path': ''})

@@ -3,9 +3,11 @@ from flask import Flask, request, redirect, url_for, jsonify
 from flask_cors import CORS
 from app.database import db
 from app.api.v1.models import users
+from app.api.v1.models.articles import Article
+from app.api.v1.models.platforms import Platform
+from app.api.v1.models.published_content import Published
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb+srv://morya:9jj7nsxBsoOT43nL@morya.kxt9fkg.mongodb.net/"
 db.init_app(app)
 
 CORS = CORS(app, resources={r'/api/*': {'origins': '*'}})

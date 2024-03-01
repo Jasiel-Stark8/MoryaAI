@@ -2,7 +2,7 @@ import requests
 
 url = 'http://127.0.0.1:5000/morya-model/generate'
 data = {
-    'text': 'Hello',
+    'text': 'Hello, how are you',
     'max_length': 256,
     'max_new_tokens': 100
 }

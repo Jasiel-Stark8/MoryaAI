@@ -1,35 +1,33 @@
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader
 import json
+import torch
 
 path = 'GPT-2-conversation_dataset.json'
 
 class ChatData(Dataset):
     """Dataset class for chat data"""
-    def __init__(self, path: str, tokenizer: object, max_length: int = 50, device: str = 'cpu'):
+    def __init__(self, path: str, tokenizer, device: str = 'cpu'):
         """Initialize dataset"""
-        self.data = json.loads(open(path, 'r', encoding='utf-8'))
+        self.tokenizer = tokenizer
+        self.data = json.load(open(path, 'r', encoding='utf-8'))
+        self.device = device
 
-        self.X = []
-        for i in self.data:
-            for j in i['dialog']:
-                self.X.append(j['text'])
-
-        for idx, i in enumerate(self.X):
-            try:
-                self.X[idx] = '<startofstring> '+i+' <bot>: '+self.X[i+1]+' <endostring>'
-            except IndexError:
-                break
-
-        self.X = self.X[:-1]
-
-        self.X_encoded = tokenizer(self.X, truncation=True, padding=True)
-        self.input_ids = self.X_encoded['input_ids']
-        self.attention_mask = self.X_encoded['attention_mask']
+        self.dialogues = []
+        for conversation in self.data:
+            for i, dialog in enumerate(conversation['dialog']):
+                if i < len(conversation['dialog']) -1:
+                    prompt = dialog['text']
+                    next_response = conversation['dialog'][i+1]['text']
+                    combined_text = f'<startofstring> {prompt} <bot>: {next_response} <endostring>'
+                    self.dialogues.append(combined_text)
 
     def __len__(self):
         """Get length of dataset"""
-        return len(self.X)
+        return len(self.dialogues)
 
     def __get_item__(self, idx):
         """Get item from dataset at a specific index"""
-        return (self.input_ids[idx], self.attention_mask[idx])
+        encoded_pair = self.tokenizer(self.dialogues[idx], truncation=True, padding='max_length', max_length=512, return_tensors='pt')
+        input_ids = encoded_pair['input_ids'].squeeze().to(self.device)
+        attention_mask = encoded_pair['attention_mask'].squeeze().to(self.device)
+        return input_ids, attention_mask

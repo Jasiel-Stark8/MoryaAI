@@ -30,6 +30,6 @@ class ChatData(Dataset):
         """Get length of dataset"""
         return len(self.X)
 
-        def __get_item__(self, idx):
-            """Get item from dataset at a specific index"""
-            return (self.input_ids[idx], self.attention_mask[idx])
+    def __get_item__(self, idx):
+        """Get item from dataset at a specific index"""
+        return (self.input_ids[idx], self.attention_mask[idx])

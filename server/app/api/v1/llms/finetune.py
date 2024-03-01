@@ -7,7 +7,7 @@ model_path = './distilgpt2'
 tokenizer = GPT2Tokenizer.from_pretrained(model_path)
 
 # Add special tokens for the start and end of the sequence
-tokenizer.add_speacial_tokens({'bos_token': '<startofstring>',
+tokenizer.add_special_tokens({'bos_token': '<startofstring>',
                                'eos_token': '<endofstring>'})
 
 model = GPT2LMHeadModel.from_pretrained(model_path)

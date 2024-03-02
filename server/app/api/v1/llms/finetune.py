@@ -9,8 +9,8 @@ model = GPT2LMHeadModel.from_pretrained(model_path)
 tokenizer = GPT2Tokenizer.from_pretrained(model_path)
 tokenizer.pad_token = tokenizer.eos_token
 special_tokens_dict = {'bos_token': '<startofstring>',
-                        'eos_token': '<endofstring>',
-                        'additional_special_tokens': ['<bot> :']}
+                       'eos_token': '<endofstring>',
+                       'additional_special_tokens': ['<bot> :']}
 num_added_tokens = tokenizer.add_special_tokens(special_tokens_dict)
 model.resize_token_embeddings(len(tokenizer))
 
@@ -20,9 +20,9 @@ chatData = ChatData('GPT-2-conversation_dataset.json', tokenizer)
 # Prepare DataLoader
 data_loader = DataLoader(chatData, batch_size=2, shuffle=True)
 
-# Run on device
-device = torch.device('cuda', if torch.cuda.is_available() else 'cpu')
-model.to(device)
+# Correct device setup
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model.to(device)  # Correct method to move model to device
 
 num_epochs = 5
 optimizer = Adam(model.parameters(), lr=5e-5)

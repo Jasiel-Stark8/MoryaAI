@@ -1,19 +1,18 @@
-<!-- Login.vue -->
+<!-- Signin.vue -->
 
 <template>
-  
 <a href="#" class=" a flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
     <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="https://i.pinimg.com/736x/7f/00/16/7f00163c114a7b3bfe3a3a65e5d5ea94.jpg" alt="login">
       <div class="login-page flex-col justify-between p-8 leading-normal border-gray-200 shadow ">
-        <h2 class=" text-5xl font-bold   dark:text-white">Log In</h2>
+        <h2 class=" text-5xl font-bold   dark:text-white">Welcome back!</h2>
           <form @submit.prevent="login">
         <div class="form-group">
           <label for="username">Username or Email:</label>
-          <input type="text" id="username" v-model.trim="username" required>
+          <input type="text" id="username" v-model.trim="username" placeholder="Username" required />
         </div>
         <div class="form-group">
-          <label for="password" class="text-1xl">Password:</label>
-          <input type="password" id="password" v-model.trim="password" required>
+          <label for="password">Password</label>
+          <input type="password" id="password" v-model.trim="password" placeholder="Password" required />
         </div>
         <button type="submit">Login</button>
         <p>Don't have an account<br> 
@@ -28,7 +27,7 @@
 </a>
 </template>
   
-  <script>
+  <script lang="ts">
   export default {
     data() {
       return {
@@ -37,13 +36,36 @@
       };
     },
     methods: {
-      login() {
-        // Implement login logic here
-        console.log('Welcome Back!');
+    async handleLogin() {
+      try {
+        // Make an API call to authenticate the user
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: this.username,
+            password: this.password,
+          }),
+        });
+
+        if (response.ok) {
+          // Login successful
+          // Redirect to the dashboard page
+          const router = useRouter();
+          router.push('/'); // Change the route path as needed
+        } else {
+          // Handle login error (e.g., display an error message)
+          console.error('Login failed');
+        }
+      } catch (error) {
+        console.error('An error occurred during login:', error);
       }
-    }
-  };
-  </script>
+    },
+  },
+};
+</script>
   
   <style scoped>
 
@@ -56,23 +78,21 @@
     align-items: center;
     width: 700px;
     height: 600px;
-    background-color: #f7ede29a;
-    
+    background-color: #220135ca;
   }
   
   .form-group {
     padding-bottom: 1px;
-    margin-top: 1.5em;
   }
 
 h2 {
-    margin-bottom: 0;
+    margin-bottom: 1em;
     padding-top: 1em;
-    color: #1b263be4;
+    color: #fbfaff;
   }
 
   p {
-    color: #2b2d42;
+    color: #fbfaff;
     padding: 1em;
   }
 
@@ -88,8 +108,10 @@ p span {
 
   label {
     display: block;
-    margin-bottom: 5px;
-    color: #2b2d42;
+    margin-top: 0.5em;
+    padding-bottom: 6px;
+    font-size: 1.2em;
+    color: #fbfaff;
   }
   
   input[type="text"],
@@ -98,6 +120,7 @@ p span {
     border-radius: 4px;
     border: 1px solid #ccccccfb;
     width: 300px;
+    color: grey;
   }
   
   button {

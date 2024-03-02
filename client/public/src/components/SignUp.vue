@@ -1,4 +1,6 @@
-<script>
+<!-- Signup.vue -->
+<script lang="ts">
+import { useRouter } from 'vue-router';
 export default {
   data() {
     return {
@@ -14,12 +16,32 @@ export default {
     }
   },
   methods: {
-    submitForm() {
-      // Implement form submission logic here
-      console.log('Form submitted with data:', this.formData)
-    }
+    async handleSignUp() {
+      try {
+        // Make an API call to register the user
+        const response = await fetch('/api/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(this.formData),
+        });
+
+        if (response.ok) {
+          // Registration successful
+          // Redirect to the dashboard page
+          const router = useRouter();
+          router.push('/'); // route path
+        } else {
+          // Handle registration error (e.g., display an error message)
+          console.error('Registration failed');
+        }
+      } catch (error) {
+        console.error('An error occurred during registration:', error);
+      }
+    },
   },
-}
+};
 </script>
 
 <template>
@@ -31,72 +53,52 @@ export default {
       <div class="form-group l-1">
         <FloatLabel>
           <label for="username">Username</label>
-          <InputText type="text" id="username" v-model.trim="formData.username" required />
+          <InputText type="text" id="username" v-model.trim="formData.username" required placeholder="Username"/>
         </FloatLabel>
       </div>
-
       <div class="form-group 1-2">
         <FloatLabel>
-          <label for="firstName">First Name</label>
-          <InputText type="text" id="firstName" v-model.trim="formData.firstName" required />
+          <label for="firstName">Full Name</label>
+          <InputText type="text" id="firstName" v-model.trim="formData.firstName" required placeholder="Full Name"/>
         </FloatLabel>
       </div>
-
-      <div class="form-group l-1">
-        <FloatLabel>
-          <label for="middleName">Middle Name</label>
-          <InputText type="text" id="middleName" v-model.trim="formData.middleName" />
-        </FloatLabel>
-      </div>
-
-      <div class="form-group l-2">
-        <FloatLabel>
-          <label for="lastName">Last Name</label>
-          <InputText type="text" id="lastName" v-model.trim="formData.lastName" required />
-        </FloatLabel>
-      </div>
-
       <div class="form-group l-1">
         <FloatLabel>
           <label for="birth_date">Birth Date</label>
-          <Calendar v-model="date" inputId="birth_date" />
+          <Calendar v-model="date" inputId="birth_date" placeholder="Enter birth date"/>
         </FloatLabel>
       </div>
-
       <div class="form-group l-2">
         <label for="gender">Gender</label>
-        <select id="gender" v-model="formData.gender" required>
+        <select id="gender" v-model="formData.gender"  required>
           <option value="">Select Gender</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
           <option value="other">Other</option>
         </select>
       </div>
-
       <div class="form-group l-1">
         <FloatLabel>
           <label for="email">Email</label>
-          <InputText type="email" id="email" v-model.trim="formData.email" required />
+          <InputText type="email" id="email" v-model.trim="formData.email" placeholder="Enter your email" required />
         </FloatLabel>
       </div>
-
       <div class="form-group l-2">
         <FloatLabel>
           <label for="password">Password</label>
-          <InputText type="password" id="password" v-model.trim="formData.password" required />
+          <InputText type="password" id="password" v-model.trim="formData.password" placeholder="Enter password" required />
         </FloatLabel>
       </div>
       <div class="card flex justify-content-center">
-        <Button label="Submit">Submit</Button>
+        <Button @click="handleSignUp" label="Submit">Submit</Button>
     </div>
-    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+    <p class="mb-3 font-normal text-gray-100 dark:text-gray-100">
       Have an account?<br>Log In
       <router-link to="/signin" class="mb-3 font-normal text-blue-900 dark:text-blue-900"><span>here</span></router-link>
     </p>
     </form>
   </div>
 </a>
-  
 </template>
 
 <style scoped>
@@ -106,19 +108,18 @@ a {
   margin: 0 auto;
 }
 .signup-form {
-  background-color: #f7ede2a0;
+  background-color: #2a0447bf;
 }
 
 form{
   margin-top: 1.5em;
   width: 450px;
-  height: 450px;
+  height: 350px;
   align-items: center;
 }
 
 h2 {
-  margin-top: -1.5em;
-  color: #1b263bc4;
+  color: #f6f2d6eb;
 }
 
 p {
@@ -126,7 +127,7 @@ p {
 }
 
 p span {
-  color: #4094ed;
+  color: #419dff;
 }
 
 .form-group{
@@ -142,7 +143,8 @@ p span {
 label {
   display: block;
   margin-bottom: 5px;
-  color: #2b2d42e0;
+  font-size: 1.2em;
+  color: #efe5b8e5;
   align-items: flex-start;
   padding-right: 1em;
 }

@@ -18,7 +18,7 @@ import Sidebar from 'primevue/sidebar';
 
 
 import router from './router'
-
+import './index.css'
 const app = createApp(App)
 
 app.use(createPinia())
@@ -26,6 +26,6 @@ app.use(router)
 app.use(PrimeVue)
 app.component("Calendar", Calendar)
 app.component("InputText", InputText)
-app.component("Button", Button)
+
 app.component("Sidebar", Sidebar)
 app.mount('#app')

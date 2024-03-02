@@ -25,7 +25,7 @@ class ChatData(Dataset):
         """Get length of dataset"""
         return len(self.dialogues)
 
-    def __get_item__(self, idx):
+    def __getitem__(self, idx):
         """Get item from dataset at a specific index"""
         encoded_pair = self.tokenizer(self.dialogues[idx], truncation=True, padding='max_length', max_length=512, return_tensors='pt')
         input_ids = encoded_pair['input_ids'].squeeze().to(self.device)

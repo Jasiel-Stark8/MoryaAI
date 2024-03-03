@@ -8,7 +8,7 @@ The application uses Vue.js/PrimeVue for the frontend and Flask for the backend.
 
 #### NOTE:
 As discussed in our team meeting, we are developing a foundational model for our software; starting with 83M(Rolling out on Tuesday); 7B; then 13B models. \
-This way we have gull control, and we may later decide to monetize it. \
+This way we have full control, and we may later decide to monetize it. \
 For any queries or model bug reports contact Jason :)
 
 

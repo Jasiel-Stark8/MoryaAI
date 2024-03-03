@@ -310,5 +310,5 @@ For any queries or assistance, please reach out to the project lead <Jason> or a
 &copy; Morya AI Team 2024
 <Jason> & <Angela>
 This product is licensed under <GNU GENERAL PUBLIC LICENSE 3.0>. \
-This is strictly to only be seen by Mentor of ALX | Afterward this repo will be closed and restructured accordingly as seen fit by the developers and owners fo this project \
+This is strictly to only be seen by Mentor of ALX | Afterward this repo will be closed and restructured accordingly as seen fit by the developers and owners fo this project. \
 Note: This project will continue to be worked on and be ready for an April Beta release.

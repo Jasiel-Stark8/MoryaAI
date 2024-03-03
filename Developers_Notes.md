@@ -4,7 +4,13 @@
 
 MoryaAI is an AI-powered content creation tool designed to streamline the writing process, enhance content quality, and maximize audience engagement. \
 A one-click generate and post AI Application! \
-The application uses Vue.js/PrimeVue for the frontend and Flask for the backend.
+The application uses Vue.js/PrimeVue for the frontend and Flask for the backend. \
+\
+NOTE: \
+As discussed in our team meeting, we are developing a foundational model for our software; starting with 83M; 7B; then 13B models. \
+This way we have gull control, and we may later decide to monetize it. \
+For any queries or model bug reports contact Jason :)
+
 
 ## Core Features
 

@@ -170,7 +170,7 @@ Our focus during the initial development phase will be on the following core fea
    - Hashed Password
    - Profile Picture
    - Subscription Status
-   - Authentication Provider (Local, Google, LinkedIn)
+   - Authentication Provider (Google, LinkedIn)
 
 2. Article Information
    - Title
@@ -281,6 +281,7 @@ Structured application outline:
     - updating email address
     - Manage subscription
     - Update profile picture
+    - Theme
 
 5. **Upgrade Page**: On this page, users can upgrade their account for additional features:
     - Choose a subscription plan
@@ -304,4 +305,10 @@ Dashboard layout description:
 
 ## Contact
 
-For any queries or assistance, please reach out to the project lead or any of the team members.
+For any queries or assistance, please reach out to the project lead <Jason> or any of the team members.
+
+&copy; Morya AI Team 2024
+<Jason> & <Angela>
+This product is licensed under <GNU GENERAL PUBLIC LICENSE 3.0> \
+This is strictly to only be seen by Mentor of ALX | Afterward this repo will be closed and restructured accordingly as seen fit by the developers and owners fo this project \
+Note: This project will continue to be worked on and be ready for an April Beta release

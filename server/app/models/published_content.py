@@ -33,3 +33,4 @@ class Published(db.Document):
             "published_by": self.published_by,
             "platform": self.platform
         }
+ 

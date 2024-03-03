@@ -48,32 +48,118 @@ Our focus during the initial development phase will be on the following core fea
 
 ```
 .
-└── server/
-    ├── app/
+├── Developers_Notes.md
+├── LICENSE
+├── README.md
+├── client
+│   ├── file
+│   ├── public
+│   │   ├── README.md
+│   │   ├── env.d.ts
+│   │   ├── index.html
+│   │   ├── package-lock.json
+│   │   ├── package.json
+│   │   ├── postcss.config.js
+│   │   ├── src
+│   │   │   ├── App.vue
+│   │   │   ├── assets
+│   │   │   │   ├── base.css
+│   │   │   │   ├── logo.svg
+│   │   │   │   └── main.css
+│   │   │   ├── components
+│   │   │   │   ├── DashboardPage.vue
+│   │   │   │   ├── GenerationPage.vue
+│   │   │   │   ├── ProfilePage.vue
+│   │   │   │   ├── SignIn.vue
+│   │   │   │   ├── SignUp.vue
+│   │   │   │   ├── __tests__
+│   │   │   │   │   └── HelloWorld.spec.ts
+│   │   │   │   └── icons
+│   │   │   │       ├── IconCommunity.vue
+│   │   │   │       ├── IconDocumentation.vue
+│   │   │   │       ├── IconEcosystem.vue
+│   │   │   │       ├── IconSupport.vue
+│   │   │   │       └── IconTooling.vue
+│   │   │   ├── index.css
+│   │   │   ├── main.ts
+│   │   │   ├── router
+│   │   │   │   └── index.ts
+│   │   │   ├── stores
+│   │   │   │   └── counter.ts
+│   │   │   ├── test
+│   │   │   └── views
+│   │   │       └── SideBar.vue
+│   │   ├── tailwind.config.js
+│   │   ├── tsconfig.app.json
+│   │   ├── tsconfig.json
+│   │   ├── tsconfig.node.json
+│   │   ├── tsconfig.vitest.json
+│   │   ├── vite.config.ts
+│   │   └── vitest.config.ts
+│   └── tes
+└── server
+    ├── app
     │   ├── __init__.py
-    │   └── api/
+    │   ├── api
+    │   │   ├── __init__.py
+    │   │   └── v1
+    │   │       ├── core
+    │   │       │   ├── __init__.py
+    │   │       │   ├── auth.py
+    │   │       │   ├── generate.py
+    │   │       │   ├── settings.py
+    │   │       │   ├── subscribe.py
+    │   │       │   └── view_articles.py
+    │   │       ├── llms
+    │   │       │   ├── GPT-2-conversation_dataset.json
+    │   │       │   ├── __init__.py
+    │   │       │   ├── distil.py
+    │   │       │   ├── distilgpt2
+    │   │       │   │   ├── 64.tflite
+    │   │       │   │   ├── README.md
+    │   │       │   │   ├── config.json
+    │   │       │   │   ├── coreml
+    │   │       │   │   │   └── text-generation
+    │   │       │   │   │       └── float32_model.mlpackage
+    │   │       │   │   │           ├── Data
+    │   │       │   │   │           │   └── com.apple.CoreML
+    │   │       │   │   │           │       ├── model.mlmodel
+    │   │       │   │   │           │       └── weights
+    │   │       │   │   │           │           └── weight.bin
+    │   │       │   │   │           └── Manifest.json
+    │   │       │   │   ├── coreml_model.mlmodel
+    │   │       │   │   ├── flax_model.msgpack
+    │   │       │   │   ├── generation_config.json
+    │   │       │   │   ├── generation_config_for_text_generation.json
+    │   │       │   │   ├── merges.txt
+    │   │       │   │   ├── model.safetensors
+    │   │       │   │   ├── pytorch_model.bin
+    │   │       │   │   ├── rust_model.ot
+    │   │       │   │   ├── tf_model.h5
+    │   │       │   │   ├── tokenizer.json
+    │   │       │   │   ├── tokenizer_config.json
+    │   │       │   │   └── vocab.json
+    │   │       │   ├── finetune.py
+    │   │       │   ├── pat
+    │   │       │   ├── post.py
+    │   │       │   └── train.py
+    │   │       └── routes
+    │   │           └── __init__.py
+    │   ├── database.py
+    │   └── models
     │       ├── __init__.py
-    │       └── v1/
-    │           ├── core/
-    │           │   └── __init__.py
-    │           ├── llms
-    │           │   └── __init__.py
-    │           ├── models/
-    │           │   ├── __init__.py
-    │           │   ├── articles.py
-    │           │   ├── payments.py
-    │           │   ├── platforms.py
-    │           │   ├── published_content.py
-    │           │   ├── saved_content.py
-    │           │   ├── subscriptions.py
-    │           │   ├── users.py
-    │           │   └── voice_drafts.py
-    │           └── routes/
-    │               └── __init__.py
+    │       ├── articles.py
+    │       ├── platforms.py
+    │       ├── published_content.py
+    │       ├── users.py
+    │       └── voice_drafts.py
     ├── app.py
     ├── requirements.txt
-    └── tests/
-        └── __init__.py
+    └── tests
+        ├── __init__.py
+        └── test_auth.py
+
+27 directories, 84 files
 ```
 
 ### Database & Storage

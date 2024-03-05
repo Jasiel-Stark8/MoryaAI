@@ -20,10 +20,7 @@
     <!-- Toggle label-->
 
     <!-- Input form -->
-    <form
-      class="flex items-center pt-6 pb-4 pr-4 rounded-lg"
-      @submit.prevent="sendMessage"
-    >
+    <form class="flex items-center pt-6 pb-4 pr-4 rounded-lg" @submit.prevent="sendMessage">
       <textarea
         v-model="newMessage"
         rows="1"

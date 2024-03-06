@@ -174,7 +174,7 @@ def logout(user_id: str):
     return jsonify({'message': 'Logout successful'})
 
 # Reset Password
-@auth.route('/reset-password', methods=['POST'])
+@auth.route('/reset_password', methods=['POST'])
 def reset_password():
     """Reset Password"""
     email = request.form.get('email')

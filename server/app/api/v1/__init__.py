@@ -1,0 +1,1 @@
+# Initializes the v1 API package and registers the blueprints.

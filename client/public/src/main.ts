@@ -15,6 +15,9 @@ import Calendar from 'primevue/calendar'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Sidebar from 'primevue/sidebar'
+import RadioButton from 'primevue/radiobutton';
+import MultiSelect from 'primevue/multiselect';
+
 
 import router from './router'
 import './index.css'
@@ -25,6 +28,7 @@ app.use(router)
 app.use(PrimeVue)
 app.component('Calendar', Calendar)
 app.component('InputText', InputText)
-
 app.component('Sidebar', Sidebar)
+app.component ('RadioButton', RadioButton)
+app.component('MultiSelect', MultiSelect)
 app.mount('#app')

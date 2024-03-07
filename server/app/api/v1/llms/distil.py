@@ -1,20 +1,19 @@
-# Import necessary objects and functions from the Flask framework and the transformers library
 from flask import Flask, Blueprint, request, jsonify
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 # Initialize a new Flask application
 app = Flask(__name__)
 
-# Path to the pre-trained model
-model_path = './distilgpt2'
+# Path to the new trained model
+model_path = './distil_morya/new_trained_weights/pytorch_model'  # Adjusted to the new path
 
-# Load the tokenizer for the GPT-2 model from the specified path
-tokenizer = GPT2Tokenizer.from_pretrained(model_path)
+# Load the tokenizer for the GPT-2 model from the new configuration path
+tokenizer = GPT2Tokenizer.from_pretrained('./distil_morya/new_config')
 
 # Set the padding token to be the same as the end-of-sequence token for the tokenizer
 tokenizer.pad_token = tokenizer.eos_token
 
-# Load the GPT-2 model from the specified path
+# Load the GPT-2 model from the new trained weights path
 model = GPT2LMHeadModel.from_pretrained(model_path)
 
 # Create a Flask Blueprint for generating text with a specific URL prefix

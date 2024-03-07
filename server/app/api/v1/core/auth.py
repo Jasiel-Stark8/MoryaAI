@@ -4,6 +4,7 @@ from flask import Flask, jsonify, request, session, Blueprint, render_template
 from typing import Optional
 import bcrypt
 import secrets
+import json
 from datetime import timedelta
 from ratelimit import limits, sleep_and_retry
 from mongoengine import errors
@@ -22,8 +23,13 @@ mail = Mail()
 @auth.before_request
 def check_user_verification():
     """
-    Check if the user is verified and registered before processing the request.
+    Check if the user is verified and registered before processing the request,
+    except for unrestricted routes like signup.
     """
+    unrestricted_routes = ['auth.signup']
+    if request.endpoint in unrestricted_routes:
+        return  # Skip the checks below for unrestricted routes
+
     if not session.get('user_id'):
         return jsonify({'error': 'Unauthorized access'}), 401
 
@@ -35,83 +41,54 @@ def check_user_verification():
         return jsonify({'error': 'Your account is not verified. \
                         Please check your email for verification instructions.'}), 401
 
-
 # Signup
 @sleep_and_retry
 @limits(calls=5, period=timedelta(seconds=60).total_seconds())
 @auth.route('/signup', methods=['GET', 'POST'], strict_slashes=False)
-def signup(username: str, email: str, password: str):
+def signup():
     """
     Create a new user account.
-
-    Args:
-        username (str): The username of the user.
-        email (str): The email address of the user.
-        password (str): The password of the user.
-
-    Returns:
-        dict: A JSON response containing the result of the signup operation.
-
-    Raises:
-        None
     """
-    # Generate verification token
-    def generate_verification_token(user: User) -> str:
-        """
-        Generate a verification token for the user.
+    if not request.is_json:
+        return jsonify({'error': 'Missing JSON in request'}), 400
 
-        Args:
-            user (User): The user object.
+    data = request.get_json()
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
 
-        Returns:
-            str: The verification token.
-        """
-        # Generate a unique verification token
-        token = secrets.token_urlsafe(32)
-        # Save the token to the user object
-        user.verification_token = token
-        user.save()
-        return token
+    # Validate the presence of all required fields
+    if not all([username, email, password]):
+        return jsonify({'error': 'Missing data for username, email, or password'}), 400
 
     try:
+        # Check if user already exists
+        existing_user = User.objects(email=email).first()
+        if existing_user:
+            return jsonify({'error': 'User already exists'}), 400
+        
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        
         user = User(
             username=username,
             email=email,
             hashed_password=hashed_password,
-            profile_picture='',
-            subscription_status='inactive',  # Set subscription status to inactive until user pays us lol
-            authentication_provider='local',
-            is_active=False,  # Set user as inactive until email is verified
-            verification_token=verification_token  # Store verification token in user object
-        )
+            is_active=False  # Set user as inactive until email is verified
+        ).save()  # Save the user and then generate the verification token
 
-        # Call generate_verification_token function to generate a verification token
-        verification_token=generate_verification_token(user)
+        # Generate and save verification token
+        verification_token = secrets.token_urlsafe(32)
+        user.update(set__verification_token=verification_token)
 
-        existing_user = User.objects(email=user.email).first()
-        if not existing_user:
-            with session.start_transaction():
-                User.save(user)
-                logger.info('User created successfully')
-                session['user_id'] = str(user.user_id)  # Store user ID in session
+        # Send verification email
+        msg = Message('Email Verification', recipients=[email])
+        msg.body = f"Please click the following link to verify your email: \
+                    {request.host_url}auth/verify_email?token={verification_token}"
+        mail.send(msg)
 
-                # Send verification email
-                msg = Message('Email Verification', recipients=[email])
-                msg.body = f"Please click the following link to verify your email: \
-                        {request.host_url}auth/verify_email?token={verification_token}"
-                mail.send(msg)
-
-                return jsonify({'User created successfully'}, 201)
-        else:
-            logger.warning('User already exists')
-            return jsonify({'User already exists'}, 400)
-    except errors.NotUniqueError:
-        logger.warning('User already exists')
-        return jsonify({'User already exists'}, 400)
+        return jsonify({'message': 'User created successfully. Please check your email to verify your account.'}), 201
     except Exception as e:
-        logger.error(f"An error occurred during signup: {str(e)}")
-        return jsonify({'Error occurred during signup'}, 500)
+        return jsonify({'error': f"An error occurred: {str(e)}"}), 500
 
 # Once verified activate user status
 def update_user(user: User):

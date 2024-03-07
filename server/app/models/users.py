@@ -26,4 +26,4 @@ class User(db.Document):
             "authentication_provider": self.authentication_provider,
             "is_active": self.is_active
         }
-# Path: server/app/models/articles.py
+    

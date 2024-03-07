@@ -1,20 +1,24 @@
+# Import necessary objects and functions from the Flask framework and the transformers library
 from flask import Flask, Blueprint, request, jsonify
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
+from transformers import GPT2Tokenizer, GPT2LMHeadModel, GPT2Config
 
 # Initialize a new Flask application
 app = Flask(__name__)
 
-# Path to the new trained model
-model_path = './distil_morya/new_trained_weights/pytorch_model'  # Adjusted to the new path
+# Path to the pre-trained model
+model_path = './distil_morya'
 
-# Load the tokenizer for the GPT-2 model from the new configuration path
-tokenizer = GPT2Tokenizer.from_pretrained('./distil_morya/new_config')
+# Load the tokenizer for the GPT-2 model from the specified path
+tokenizer = GPT2Tokenizer.from_pretrained(model_path)
 
 # Set the padding token to be the same as the end-of-sequence token for the tokenizer
 tokenizer.pad_token = tokenizer.eos_token
 
-# Load the GPT-2 model from the new trained weights path
-model = GPT2LMHeadModel.from_pretrained(model_path)
+# Load the updated configuration that matches your model's state dictionary
+config = GPT2Config.from_pretrained(model_path)
+
+# Load the GPT-2 model from the specified path
+model = GPT2LMHeadModel.from_pretrained(model_path, config=config, ignore_mismatched_sizes=True)
 
 # Create a Flask Blueprint for generating text with a specific URL prefix
 generate = Blueprint('generate', __name__, url_prefix='/morya-model')

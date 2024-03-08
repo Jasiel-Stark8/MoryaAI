@@ -19,8 +19,9 @@ To get started with Morya-92M, ensure you have Python 3.11+ installed. Then, fol
 
 ```bash
 git clone <repository-link>
-cd Morya-92M
+cd MoryaAI/server
 ```
+2. Create and Activate a virtual environment.
 
 2. Install required packages:
 
@@ -28,7 +29,7 @@ cd Morya-92M
 pip install -r requirements.txt
 ```
 
-This will install packages like `h5py`, `typing-extensions`, `wheel`, `transformers`, `torch`, and `tqdm` among others.
+This will install packages like, `transformers`, `torch`, and `tqdm` among others.
 
 ## Running Morya-92M
 
@@ -36,31 +37,78 @@ This will install packages like `h5py`, `typing-extensions`, `wheel`, `transform
 
 To run Morya-92M locally, follow these steps:
 
-1. Navigate to the project directory.
-2. Activate your virtual environment.
+1. Activate your virtual environment.
+2. Navigate to the project directory `MoryaAI/server/app/api/v1/llms`
 3. Run the `morya.py` script to start the Flask server:
 
 ```bash
-python morya.py
+python3 morya.py
 ```
 
 4. In a separate terminal, use `post.py` to send requests to your model:
+It accepts commandline arguments
 
 ```bash
-python post.py
+python post.py Hello How Are You?
 ```
 
-### Fine-tuning Morya-92M
+## Further Fine-tuning Instructions for Morya-83M
 
-Morya-92M offers facilities for further fine-tuning. Here's a step-by-step guide to fine-tuning on Kaggle:
+To enhance Morya-83M's capabilities or adapt it to new datasets, follow these detailed instructions for fine-tuning the model on Kaggle:
 
-1. Create a Kaggle account and verify your phone number for full feature access.
-2. Upload the `foundational-model-morya-92m.ipynb` notebook to your Kaggle workspace.
-3. Upload the `custom_conversation_dataset.json` as a dataset to your Kaggle input.
-4. Configure the session to use a GPU for training, preferably a P100 for optimal performance.
-5. Start the training session and monitor progress through Kaggle's logs interface.
+### Setting Up Your Environment on Kaggle
 
-For detailed instructions, please refer to the [Kaggle Fine-tuning Guide](#).
+1. **Create a Kaggle Account:** If you haven't already, create a Kaggle account by visiting [Kaggle](https://www.kaggle.com) and signing up. This will be your gateway to accessing a vast array of datasets and GPU resources for your fine-tuning needs.
+
+2. **Verify Your Phone Number:** Navigate to your account settings and verify your phone number. This step is crucial as it unlocks all features on Kaggle, including internet access and access to accelerator GPUs and TPUs, which are essential for training AI models.
+
+3. **Prepare Your Notebook:**
+   - Click on **Code** in the left navigation menu on Kaggle.
+   - Click on **New Notebook**.
+   - In the notebook settings, ensure you've selected a GPU as your accelerator to utilize Kaggle's free GPU resources.
+
+4. **Upload Your Notebook:**
+   - Click on **File** in the top-left corner of the Kaggle notebook interface.
+   - Select **Upload Notebook**.
+   - Choose and upload the `foundational-model-morya-92m.ipynb` file from your local machine.
+
+5. **Add Your Dataset:**
+   - On the right-hand side of the notebook interface, click on **Add Data**.
+   - Then, select **Upload** and drag the content from the `morya-92m` folder into the designated drop area. This will add your custom dataset to the Kaggle notebook for use during fine-tuning.
+
+### Fine-tuning Process
+
+1. **Configure Session Options:**
+   - Still in the Kaggle notebook interface, find the **Settings** panel on the right.
+   - Scroll down and toggle the **Internet** option to ON. This allows your notebook to download the necessary weights and dependencies for the fine-tuning process.
+
+2. **Select Your GPU:**
+   - In the **Settings** panel, under **Accelerator**, select a GPU. For this fine-tuning process, it's recommended to use the **P100 GPU** for its balance between cost and performance. This setup has been optimized for approximately 6 hours of training on a GPU.
+
+3. **Start Fine-tuning:**
+   - Once your environment is set up, you're ready to start the fine-tuning process. Click on **Save Version** at the top right of your notebook. This will save your current notebook setup and start the fine-tuning process in the background.
+   - You can name your version anything you like, for example, `first_run`. Under **Save and Run All**, this ensures that your notebook runs from start to finish without manual intervention.
+
+### Monitoring and Retrieving Your Model
+
+1. **Monitoring:**
+   - Kaggle will notify you when your instance is ready and running. A link will appear at the bottom left of your screen, which you can click to view the logs and monitor the training progress.
+
+2. **Retrieving Your Fine-tuned Model:**
+   - Upon completion of the training, navigate to the **Outputs** tab in your notebook. Here, you should find the `pytorch_model.bin` file.
+   - Download this file and replace the existing `pytorch_model.bin` file in your cloned project directory with the newly fine-tuned version.
+
+### Final Steps
+
+1. **Set Up Your Local Environment:**
+   - Navigate back to the root of your cloned project directory.
+   - Create and activate a virtual environment, then install the required dependencies as specified in your project's `requirements.txt` file.
+
+2. **Running Your Model:**
+   - Run `morya.py` in one terminal to start the Flask server.
+   - In another terminal, run `post.py` to send requests to your model. You can edit the text in `post.py` to any message you wish to process through Morya-83M.
+
+Congratulations! You've successfully fine-tuned Morya-83M. Explore its enhanced capabilities and integrate it into your applications as needed.
 
 ## Democratizing AI
 

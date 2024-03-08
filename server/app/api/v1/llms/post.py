@@ -1,8 +1,10 @@
+import sys
 import requests
 
+text = str(sys.argv[1:])
 url = 'http://127.0.0.1:5000/morya-model/generate'
 data = {
-    'text': 'Hello, how are you?',
+    'text': text,
     'max_length': 256,
     'max_new_tokens': 100
 }

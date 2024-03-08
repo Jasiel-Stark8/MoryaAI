@@ -1,23 +1,15 @@
-# Import necessary objects and functions from the Flask framework and the transformers library
+import os
 from flask import Flask, Blueprint, request, jsonify
-from transformers import GPT2Tokenizer, GPT2LMHeadModel, GPT2Config, safetensors
+from transformers import GPT2Tokenizer, GPT2LMHeadModel, GPT2Config
 
-# Initialize a new Flask application
+os.environ["TRANSFORMERS_USE_SAFETENSORS"] = "1"
+
 app = Flask(__name__)
 
-# Path to the pre-trained model
 model_path = './distil_morya'
-
-# Load the tokenizer for the GPT-2 model from the specified path
 tokenizer = GPT2Tokenizer.from_pretrained(model_path)
-
-# Set the padding token to be the same as the end-of-sequence token for the tokenizer
 tokenizer.pad_token = tokenizer.eos_token
-
-# Load the updated configuration that matches your model's state dictionary
 config = GPT2Config.from_pretrained(model_path)
-
-# Load the GPT-2 model from the specified path
 model = GPT2LMHeadModel.from_pretrained(model_path, config=config, ignore_mismatched_sizes=True)
 
 # Create a Flask Blueprint for generating text with a specific URL prefix

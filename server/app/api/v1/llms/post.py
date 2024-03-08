@@ -1,7 +1,7 @@
 import sys
 import requests
 
-text = str(sys.argv[1:])
+text = " ".join(sys.argv[1:])
 url = 'http://127.0.0.1:5000/morya-model/generate'
 data = {
     'text': text,

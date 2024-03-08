@@ -1,6 +1,6 @@
 # Import necessary objects and functions from the Flask framework and the transformers library
 from flask import Flask, Blueprint, request, jsonify
-from transformers import GPT2Tokenizer, GPT2LMHeadModel, GPT2Config
+from transformers import GPT2Tokenizer, GPT2LMHeadModel, GPT2Config, safetensors
 
 # Initialize a new Flask application
 app = Flask(__name__)
